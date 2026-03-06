@@ -4,7 +4,7 @@ import email
 from email.header import decode_header
 from dotenv import load_dotenv
 
-# Load your secret credentials from the .env file
+# Load secret credentials from your .env vault
 load_dotenv()
 
 def check_for_openclaw_emails():
@@ -38,12 +38,12 @@ def check_for_openclaw_emails():
             if isinstance(response, tuple):
                 msg = email.message_from_bytes(response[1])
                 
-                # Decode the subject line to readable text
+                # Decode the subject line
                 subject, encoding = decode_header(msg.get("Subject", ""))[0]
                 if isinstance(subject, bytes):
                     subject = subject.decode(encoding if encoding else "utf-8")
                 
-                # Extract the message body (looking for the TikTok link)
+                # Extract the message body (to find the TikTok link later)
                 body = ""
                 if msg.is_multipart():
                     for part in msg.walk():
@@ -60,10 +60,5 @@ def check_for_openclaw_emails():
 if __name__ == "__main__":
     print("Scanning for new Open Claw intel, Tracy...")
     emails = check_for_openclaw_emails()
-    
-    if not emails:
-        print("No new Open Claw emails found at this time.")
-    else:
-        for e in emails:
-            print(f"Target Acquired: {e['subject']}")
-            print("Standing by for your command to process, Googs.")
+    for e in emails:
+        print(f"Target Acquired: {e['subject']}")
