@@ -1,48 +1,43 @@
 import os
 import asyncio
-import re
-from analyze_video import analyze_tiktok
-from test_download import download_tiktok
+import subprocess
+from dotenv import load_dotenv
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler, ContextTypes
-from dotenv import load_dotenv
-from email_listener import check_for_openclaw_emails
 
-# Load vault credentials
+# Local imports from your project
+from email_listener import check_for_openclaw_emails
+from analyze_video import analyze_tiktok
+
 load_dotenv()
+
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 
-# Global queue to manage emails one by one
-email_queue = []
+def archive_intel(subject, url, analysis):
+    """Appends the analysis to a permanent ledger and syncs to Google Drive."""
+    filename = "intel_vault.md"
+    with open(filename, "a") as f:
+        f.write(f"## Target: {subject}\n")
+        f.write(f"**URL:** {url}\n\n")
+        f.write(f"### Analysis:\n{analysis}\n")
+        f.write("\n---\n\n")
+    
+    # Syncs the file to your 'TikTok_Intel' folder on Google Drive via rclone
+    subprocess.run(["rclone", "copy", filename, "gdrive:TikTok_Intel"])
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Starts the process and fetches the email list."""
-    global email_queue
+    """Scans inbox and presents the first found email."""
     await update.message.reply_text("Scanning your inbox for Open Claw intel, Tracy...")
     
-    email_queue = check_for_openclaw_emails()
+    emails = check_for_openclaw_emails()
     
-    if not email_queue:
+    if not emails:
         await update.message.reply_text("No new Open Claw emails found right now.")
         return
 
-    await update.message.reply_text(f"Found {len(email_queue)} targets. Let's review them one by one.")
-    await show_next_email(update, context)
-
-async def show_next_email(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Presents the next email subject with action buttons."""
-    global email_queue
-    
-    if not email_queue:
-        msg = "All caught up! No more emails in the queue."
-        if update.callback_query:
-            await update.callback_query.message.reply_text(msg)
-        else:
-            await update.message.reply_text(msg)
-        return
-
-    current = email_queue.pop(0)
-    context.user_data['current_item'] = current
+    # Store the first email in user_data for the button handler
+    first_email = emails[0]
+    context.user_data['current_item'] = first_email
 
     keyboard = [
         [
@@ -52,72 +47,54 @@ async def show_next_email(update: Update, context: ContextTypes.DEFAULT_TYPE):
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
 
-    text = f"🎯 **Target Found**\n\nSubject: {current['subject']}\n\nShould I analyze this TikTok for you, Googs?"
-    
-    if update.callback_query:
-        await update.callback_query.message.reply_text(text=text, reply_markup=reply_markup)
-    else:
-        await update.message.reply_text(text=text, reply_markup=reply_markup)
+    await update.message.reply_text(
+        f"📩 **Found:** {first_email['subject']}\nWould you like to analyze this one?",
+        reply_markup=reply_markup
+    )
 
-       async def handle_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def handle_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Processes your choice for the current email."""
     query = update.callback_query
     await query.answer()
 
-    # 1. Get the data from the bot's memory
     current = context.user_data.get('current_item')
 
-    # 2. Safety Check: If the bot restarted, 'current' will be None.
     if not current:
-        await query.edit_message_text(text="⚠️ **Session timed out.** Please run /start again to refresh the list.")
+        await query.edit_message_text(text="⚠️ **Session timed out.** Please run /start again.")
         return
 
     if query.data == "yes":
-        # Use .get() just in case the subject is missing
         subject = current.get('subject', 'Unknown Subject')
         await query.edit_message_text(text=f"🚀 **Processing:** {subject}...")
-        # Look for a TikTok URL in the email body
-        urls = re.findall(r'(https?://[^\s]+)', current.get('body', ''))
-        tiktok_url = next((url for url in urls if "tiktok.com" in url), None)
+        
+        # 1. Get the link from the email body
+        body = current.get('body', '')
+        # Simple extraction (assumes the link is the only thing in the body or on its own line)
+        tiktok_url = next((line for line in body.split() if "tiktok.com" in line), None)
 
-        if tiktok_url:
-            await query.message.reply_text(f"📥 Found link! Passing to analysis engine...\nURL: {tiktok_url}")
-            
-            # --- THE ASSEMBLY LINE ---
-            await query.message.reply_text("⏳ Ripping video from TikTok...")
-            
-            # 1. Download it
-            download_success = download_tiktok(tiktok_url, "current_target.mp4")
-            
-            if download_success:
-                await query.message.reply_text("🧠 Video secured. Brain is analyzing...")
-                
-                # 2. Analyze it
-                analysis_result = analyze_tiktok("current_target.mp4")
-                
-                # 3. Send the intel back to Telegram
-                await query.message.reply_text(f"📊 **Analysis Complete:**\n\n{analysis_result}")
-                
-                # 4. Clean up the evidence so your server doesn't get cluttered
-                if os.path.exists("current_target.mp4"):
-                    os.remove("current_target.mp4")
-            else:
-                await query.message.reply_text("❌ Download failed. The video might be private, deleted, or geoblocked.")
-            # -------------------------
+        if not tiktok_url:
+            await query.message.reply_text("❌ No TikTok link found in that email.")
+            return
 
-        else:
-            await query.message.reply_text("❌ Target lost: No TikTok link found in that email.")
+        # 2. Run the Gemini Brain
+        await query.message.reply_text("🧠 **Ripping video and analyzing...** (This takes about 30s)")
+        analysis_result = analyze_tiktok(tiktok_url)
 
-    else:
-        await query.edit_message_text(text=f"⏭️ **Skipped:** {current['subject']}")
+        # 3. Send results to Telegram
+        await query.message.reply_text(f"📊 **Analysis Complete:**\n\n{analysis_result}")
 
-    # Immediately move to the next item in the queue
-    await show_next_email(update, context)
-if __name__ == "__main__":
-    app = ApplicationBuilder().token(TOKEN).build()
+        # 4. Archive to Local File & Google Drive
+        archive_intel(subject, tiktok_url, analysis_result)
+        await query.message.reply_text("📂 **Intel archived to Google Drive (TikTok_Intel).**")
+
+    elif query.data == "no":
+        await query.edit_message_text(text=f"⏭️ **Skipped:** {current.get('subject')}")
+
+if __name__ == '__main__':
+    application = ApplicationBuilder().token(TOKEN).build()
     
-    app.add_handler(CommandHandler("start", start))
-    app.add_handler(CallbackQueryHandler(handle_button))
+    application.add_handler(CommandHandler('start', start))
+    application.add_handler(CallbackQueryHandler(handle_button))
     
     print("AnalyzerOfTikTokBot is online and standing by, Tracy.")
-    app.run_polling()
+    application.run_polling()

@@ -1,43 +1,64 @@
 import os
 import time
+import yt_dlp
 from google import genai
 from dotenv import load_dotenv
 
-# Load the vault
-load_dotenv(override=True)
-API_KEY = os.getenv("GEMINI_API_KEY")
+load_dotenv()
 
-# Setup the client
-client = genai.Client(api_key=API_KEY)
-
-def analyze_tiktok(video_path):
-    print(f"Uploading {video_path} to Gemini...")
-    video_file = client.files.upload(file=video_path)
-
-    print("Waiting for video processing to complete...")
-    while video_file.state.name == "PROCESSING":
-        print(".", end="", flush=True)
-        time.sleep(10)
-        video_file = client.files.get(name=video_file.name)
+def analyze_tiktok(url):
+    """Downloads a TikTok video and analyzes it using Google Gemini."""
+    video_path = "temp_video.mp4"
     
-    if video_file.state.name == "FAILED":
-        return "Error: Video processing failed."
+    # Step 1: Download the video locally using yt-dlp
+    print(f"📥 Downloading video from: {url}")
+    ydl_opts = {
+        'outtmpl': video_path,
+        'quiet': True,
+        'no_warnings': True,
+        'format': 'bestvideo+bestaudio/best',
+    }
+    
+    try:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            ydl.download([url])
+    except Exception as e:
+        return f"❌ Download failed: {str(e)}"
+
+    # Step 2: Initialize Gemini Client
+    client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
+
+    try:
+        print(f"🧠 Uploading {video_path} to Gemini...")
+        video_file = client.files.upload(file=video_path)
+
+        # --- THE FIX: Wait for Gemini to process the video ---
+        print("⏳ Waiting for Gemini to buffer the video...")
+        while video_file.state.name == "PROCESSING":
+            time.sleep(5)
+            video_file = client.files.get(name=video_file.name)
+            
+        if video_file.state.name == "FAILED":
+            return "❌ Gemini failed to process the video file."
+        # ----------------------------------------------------
+
+        # Step 3: Generate the analysis
+        prompt = "Analyze this TikTok video. What is the hook? What is the main value? Provide a summary for a digital archaeology series."
         
-    print("\nVideo ready!\nAnalyzing video intel...")
-    
-    prompt = "Summarize the key takeaways from this video and identify any 'Open Claw' strategies mentioned."
-    
-    # Using the working 2.5 Flash model
-    response = client.models.generate_content(
-        model="gemini-2.5-flash",
-        contents=[video_file, prompt]
-    )
-    
-    return response.text
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=[video_file, prompt]
+        )
 
-# This part only runs if you test the file directly in the terminal
-if __name__ == "__main__":
-    # Test it to make sure we didn't break anything
-    result = analyze_tiktok("test_video.mp4")
-    print("\n--- FINAL OUTPUT ---")
-    print(result)
+        analysis = response.text
+
+        # Step 4: Clean up
+        if os.path.exists(video_path):
+            os.remove(video_path)
+
+        return analysis
+
+    except Exception as e:
+        if os.path.exists(video_path):
+            os.remove(video_path)
+        return f"❌ Gemini Analysis failed: {str(e)}"
