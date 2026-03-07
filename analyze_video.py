@@ -43,7 +43,7 @@ def analyze_tiktok(url):
         # ----------------------------------------------------
 
         # Step 3: Generate the analysis
-        prompt = "Analyze this TikTok video. What is the hook? What is the main value? Provide a summary for a digital archaeology series."
+        prompt = "Analyze this TikTok video about OpenClaw or AI agents. Extract the key technical takeaways. Specifically, pinpoint any tools, configurations, or strategies mentioned that could help improve the performance of my personal AI bots or save money on API and server costs. Give me a clean, actionable summary."
         
         response = client.models.generate_content(
             model="gemini-2.5-flash",

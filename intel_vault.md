@@ -82,3 +82,39 @@ Essentially, it gives users complete oversight and control over their AI agents'
 
 ---
 
+## Target: Open claw tokens 
+**URL:** https://www.tiktok.com/t/ZP8XD2GcM/
+
+### Analysis:
+This TikTok video introduces a valuable skill for Molbot (formerly OpenClaw) AI agents, focused on significantly reducing token usage and thus API/server costs.
+
+Here are the key technical takeaways and actionable strategies for your personal AI bots:
+
+**Key Takeaways & Actionable Strategies:**
+
+1.  **Tool/Skill:** **QMD Skill** (from `levineam/qmd-skill`) for Molbot/OpenClaw agents.
+2.  **Core Mechanism (Retrieval Augmented Generation - RAG):**
+    *   Instead of sending entire large documents (which "bloats" your prompts and consumes many tokens) to the AI model, the QMD Skill performs a **local search on your markdown-formatted documents.**
+    *   It then intelligently **extracts only the relevant snippets** or pieces of information that directly pertain to the current query.
+    *   Finally, **only these relevant snippets are sent to the AI model**, drastically reducing the input token count.
+3.  **Significant Cost Savings:** The primary benefit is a claimed **95% reduction in token usage**. This directly translates to lower API costs for large language models (LLMs) like OpenAI's GPT series, Anthropic's Claude, or Google's Gemini.
+4.  **Model Agnostic:** This token-saving strategy is **not dependent on a specific AI model**. It works with "any model" (Opus, Codex, Gemini, etc.), meaning you can apply it regardless of which expensive LLM you're using.
+5.  **Improved Performance & Profitability:**
+    *   Fewer tokens processed means potentially faster response times from the AI.
+    *   For developers building AI products, this reduction can be the difference between a project operating at a loss or being profitable.
+    *   "Every token you save is more compute for actual work" – implying you can do more with your AI within the same budget.
+6.  **Prerequisite Data Format:** To leverage this skill, your knowledge base or documentation needs to be in **markdown format**, as the skill is designed to search and extract from these files locally.
+
+**How to Implement (Actionable):**
+
+*   **Install the Skill:** If you are using the Molbot/Skillkit framework for your AI agents, you can install this skill directly using the command provided:
+    ```bash
+    npx skillkit install levineam/qmd-skill
+    ```
+*   **Organize Your Knowledge in Markdown:** Structure your personal AI's knowledge base, documentation, or relevant data into markdown files.
+*   **Integrate QMD Skill into your Agent's Workflow:** Configure your Molbot agent to use the QMD Skill for information retrieval before sending prompts to the LLM, ensuring only relevant snippets are included.
+
+In essence, the QMD Skill transforms your AI agent's ability to interact with large bodies of information by implementing an efficient, token-saving RAG pipeline focused on local markdown documents. This is a critical strategy for making AI bots more economical and efficient.
+
+---
+
