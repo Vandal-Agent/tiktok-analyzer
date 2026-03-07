@@ -1,6 +1,8 @@
 import os
 import asyncio
 import re
+from analyze_video import analyze_tiktok
+from test_download import download_tiktok
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler, ContextTypes
 from dotenv import load_dotenv
@@ -57,32 +59,60 @@ async def show_next_email(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await update.message.reply_text(text=text, reply_markup=reply_markup)
 
-async def handle_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
+       async def handle_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Processes your choice for the current email."""
     query = update.callback_query
     await query.answer()
-    
+
+    # 1. Get the data from the bot's memory
     current = context.user_data.get('current_item')
-    
+
+    # 2. Safety Check: If the bot restarted, 'current' will be None.
+    if not current:
+        await query.edit_message_text(text="⚠️ **Session timed out.** Please run /start again to refresh the list.")
+        return
+
     if query.data == "yes":
-        await query.edit_message_text(text=f"🚀 **Processing:** {current['subject']}...")
-        
+        # Use .get() just in case the subject is missing
+        subject = current.get('subject', 'Unknown Subject')
+        await query.edit_message_text(text=f"🚀 **Processing:** {subject}...")
         # Look for a TikTok URL in the email body
         urls = re.findall(r'(https?://[^\s]+)', current.get('body', ''))
         tiktok_url = next((url for url in urls if "tiktok.com" in url), None)
 
         if tiktok_url:
             await query.message.reply_text(f"📥 Found link! Passing to analysis engine...\nURL: {tiktok_url}")
-            # This is where we trigger analyze_video.py in the next step
+            
+            # --- THE ASSEMBLY LINE ---
+            await query.message.reply_text("⏳ Ripping video from TikTok...")
+            
+            # 1. Download it
+            download_success = download_tiktok(tiktok_url, "current_target.mp4")
+            
+            if download_success:
+                await query.message.reply_text("🧠 Video secured. Brain is analyzing...")
+                
+                # 2. Analyze it
+                analysis_result = analyze_tiktok("current_target.mp4")
+                
+                # 3. Send the intel back to Telegram
+                await query.message.reply_text(f"📊 **Analysis Complete:**\n\n{analysis_result}")
+                
+                # 4. Clean up the evidence so your server doesn't get cluttered
+                if os.path.exists("current_target.mp4"):
+                    os.remove("current_target.mp4")
+            else:
+                await query.message.reply_text("❌ Download failed. The video might be private, deleted, or geoblocked.")
+            # -------------------------
+
         else:
             await query.message.reply_text("❌ Target lost: No TikTok link found in that email.")
-            
+
     else:
         await query.edit_message_text(text=f"⏭️ **Skipped:** {current['subject']}")
 
     # Immediately move to the next item in the queue
     await show_next_email(update, context)
-
 if __name__ == "__main__":
     app = ApplicationBuilder().token(TOKEN).build()
     
