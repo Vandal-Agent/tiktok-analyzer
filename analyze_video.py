@@ -1,11 +1,22 @@
-from google import genai
+import os
 import time
+from google import genai
+from dotenv import load_dotenv
 
-# 1. Set up the new, updated client
-API_KEY = "AIzaSyA1VGysgVbpmfe127EXvS1qBTsaOCP0_yM" 
+# 1. Load the vault WITH override
+load_dotenv(override=True)
+API_KEY = os.getenv("GEMINI_API_KEY")
+
+# DEBUG: Print the first 10 characters to verify it's the new key
+print(f"DEBUG: Using API Key starting with -> {API_KEY[:10]}...")
+
+# 2. Setup the client
 client = genai.Client(api_key=API_KEY)
 
-# 2. Upload the video we downloaded
+# ... (keep the rest of your upload and analysis code below this exactly the same) ...
+
+
+# 2. Upload the video
 video_path = "test_video.mp4"
 print(f"Uploading {video_path} to Gemini...")
 video_file = client.files.upload(file=video_path)
@@ -18,26 +29,13 @@ while video_file.state.name == "PROCESSING":
     video_file = client.files.get(name=video_file.name)
 print("\nVideo ready!")
 
-# 4. Analyze using the Flash-Lite model (Better for quotas)
-print("Analyzing video for Open Claw Intel...")
-prompt = """
-You are the lead intelligence analyst for the 'Open Claw' project. 
-Watch this TikTok video and provide a concise summary. 
-Most importantly, extract any actionable intel on how we can:
-1. Improve our operations
-2. Save money
-3. Make money
-"""
+# 4. Generate Analysis
+print("Analyzing video intel...")
+prompt = "Summarize the key takeaways from this video and identify any 'Open Claw' strategies mentioned."
+response = client.models.generate_content(
+    model="gemini-2.5-flash",
+    contents=[video_file, prompt]
+)
 
-try:
-    response = client.models.generate_content(
-        model="gemini-2.5-flash-lite",
-        contents=[video_file, prompt]
-    )
-    print("\n--- OPEN CLAW INTEL REPORT ---")
-    print(response.text)
-except Exception as e:
-    print(f"\nOops, we hit a snag: {e}")
-
-# 5. Clean up the file from Google's servers
-client.files.delete(name=video_file.name)
+print("\n--- ANALYSIS COMPLETE ---")
+print(response.text)
