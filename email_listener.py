@@ -20,8 +20,7 @@ def check_for_openclaw_emails():
     # SEARCH CRITERIA:
     # We are searching for ALL emails (even if already read) 
     # that contain "open claw" in the subject.
-    status, messages = mail.search(None, '(OR SUBJECT "open claw" SUBJECT "openclaw")')
-
+    status, messages = mail.search(None, '(OR UNSEEN SUBJECT "open claw" UNSEEN SUBJECT "openclaw")')
     email_list = []
 
     if status == 'OK':
