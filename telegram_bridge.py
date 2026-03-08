@@ -21,7 +21,7 @@ def load_categories():
         with open('categories.json', 'r') as f:
             return json.load(f)
     except FileNotFoundError:
-        return {"Default": "intel_vault.md"}
+        return {"Default": "intel_vault.txt"}
 
 CATEGORIES = load_categories()
 
@@ -32,7 +32,7 @@ def track_usage(increment=1):
 
 def archive_intel(summary, category_key):
     """Saves summary to the correct local markdown file and pushes to Shared GDrive."""
-    filename = CATEGORIES.get(category_key, "intel_vault.md")
+    filename = CATEGORIES.get(category_key, "intel_vault.txt")
     
     # Append to local file
     with open(filename, "a") as f:
