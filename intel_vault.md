@@ -118,3 +118,58 @@ In essence, the QMD Skill transforms your AI agent's ability to interact with la
 
 ---
 
+## Target: Open claw business 
+**URL:** https://www.tiktok.com/t/ZP8XXhsux/
+
+### Analysis:
+This TikTok video offers excellent insights into optimizing AI agent usage for B2B lead generation, specifically focusing on cost-effectiveness and performance for building personal AI bots.
+
+Here's a clean, actionable summary of the key technical takeaways for improving your personal AI bots' performance and saving money on API/server costs:
+
+---
+
+### Actionable Takeaways for Personal AI Bots (Performance & Cost Saving):
+
+The core strategy revolves around **multi-agent orchestration** combined with **intelligent LLM selection based on task complexity and cost.**
+
+1.  **Adopt a Multi-Agent Architecture:**
+    *   **Strategy:** Break down complex tasks into smaller, specialized sub-tasks. The speaker used "fourteen sub agents" to parallelize work (e.g., reading different sources) and then "multiple agents" for data collection, organization, and outreach drafting.
+    *   **Benefit:** Enables parallel processing, speeding up data collection and analysis significantly (1000 deals in 6 hours).
+    *   **Action for your bots:** Design your personal AI bots to work as a "team," with each bot specializing in a part of the workflow (e.g., one for research, one for summarization, one for data extraction, one for drafting).
+
+2.  **Strategically Select LLMs for Cost Optimization (Matching Power to Task):**
+    *   **Ollama (Local LLM) for "Brainless" Tasks:**
+        *   **Use Case:** Data entry, simple formatting, filtering, or tasks that don't require complex reasoning or real-time external data access.
+        *   **Benefit:** **Zero API cost.** Running a local Large Language Model (LLM) on your own hardware completely eliminates per-token API charges for suitable tasks.
+        *   **Action for your bots:** Identify "brainless" or routine data processing tasks your bots perform. If your local machine can handle it, configure them to use Ollama (or similar local LLM solutions) to drastically cut costs.
+    *   **Haiku (Efficient, Mid-Tier LLM) for Web Browsing/Data Collection:**
+        *   **Use Case:** Web browsing, scraping specific data from websites, initial data collection.
+        *   **Benefit:** More capable than local models for web interaction, but significantly cheaper than top-tier models.
+        *   **Action for your bots:** For tasks involving active web interaction and data extraction where some understanding is needed, choose an efficient, cost-optimized model like Haiku (from Claude or similar providers).
+    *   **Sonnet (Capable, Higher-Tier LLM) for Reasoning/Drafting:**
+        *   **Use Case:** Complex reasoning, understanding collective context, drafting personalized outreach emails, summarizing intricate information.
+        *   **Benefit:** Offers good reasoning capabilities at a moderate cost, much less expensive than the highest-tier models.
+        *   **Action for your bots:** Reserve models like Sonnet for tasks requiring more sophisticated intelligence and nuanced output, such as generating custom content or making semi-complex decisions.
+    *   **Avoid Top-Tier LLMs (e.g., Opus, GPT-4o) for Common Tasks:**
+        *   **Strategy:** The speaker implicitly highlights this by showing Opus would have cost $250 for the same task that cost $6 with the optimized setup.
+        *   **Action for your bots:** Only use the most powerful (and expensive) LLMs when their superior accuracy, creative ability, or complex problem-solving is absolutely critical and irreplaceable by cheaper alternatives.
+
+3.  **Integrate External APIs for Specific Data Needs:**
+    *   **Tool:** hunter.io API for finding email addresses and LinkedIn profiles.
+    *   **Benefit:** Automated and accurate collection of specific contact information, which LLMs alone might struggle to find reliably or efficiently.
+    *   **Action for your bots:** Don't rely solely on LLMs for all data points. Integrate specialized APIs (e.g., data enrichment, social media, company databases) where they offer more accurate, structured, or faster results for specific data types.
+
+4.  **Leverage Background Processing for Asynchronous Tasks:**
+    *   **Strategy:** The speaker programmed the agent to run overnight.
+    *   **Benefit:** Maximize productivity by having bots perform long-running data collection and processing tasks outside of your active working hours.
+    *   **Action for your bots:** Design your bots for asynchronous operation. Many data gathering or preliminary analysis tasks can run unattended, preparing a "hit list" or summary for you by the time you start your workday.
+
+5.  **Maintain Human Oversight and Trust-Building:**
+    *   **Strategy:** The speaker still handles the cold outreach personally, stating, "I don't quite trust it yet."
+    *   **Benefit:** Prevents potential errors, ensures quality, and builds confidence in the AI system over time.
+    *   **Action for your bots:** For critical actions like sending direct communications or making financial decisions, keep a human-in-the-loop. Gradually increase automation as the bot's reliability and your trust in its performance grow.
+
+---
+
+---
+
