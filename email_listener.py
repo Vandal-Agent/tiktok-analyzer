@@ -4,61 +4,58 @@ import email
 from email.header import decode_header
 from dotenv import load_dotenv
 
-# Load secret credentials from your .env vault
 load_dotenv()
 
 def check_for_openclaw_emails():
-    # Account credentials pulled from your .env vault
+    """Connects to Gmail and finds ALL emails with 'open claw' in the subject."""
+    # Account credentials from your .env file
     username = os.getenv("GMAIL_USER")
     password = os.getenv("GMAIL_APP_PASSWORD")
-
-    if not username or not password:
-        print("Error: GMAIL_USER or GMAIL_APP_PASSWORD not set in .env")
-        return []
-
-    # Connect to Gmail's IMAP server securely
-    try:
-        mail = imaplib.IMAP4_SSL("imap.gmail.com")
-        mail.login(username, password)
-        mail.select("inbox")
-    except Exception as e:
-        print(f"Failed to connect to Gmail: {e}")
-        return []
-
-    # Search for unread emails that match either "Open Claw" or "openclaw"
-    search_criteria = '(UNSEEN (OR SUBJECT "Open Claw" SUBJECT "openclaw"))'
-    status, messages = mail.search(None, search_criteria)
     
-    mail_ids = messages[0].split()
-    found_emails = []
+    # Connect to Gmail IMAP server
+    mail = imaplib.IMAP4_SSL("imap.gmail.com")
+    mail.login(username, password)
+    mail.select("inbox")
 
-    for i in mail_ids:
-        res, msg_data = mail.fetch(i, "(RFC822)")
-        for response in msg_data:
-            if isinstance(response, tuple):
-                msg = email.message_from_bytes(response[1])
-                
-                # Decode the subject line
-                subject, encoding = decode_header(msg.get("Subject", ""))[0]
-                if isinstance(subject, bytes):
-                    subject = subject.decode(encoding if encoding else "utf-8")
-                
-                # Extract the message body (to find the TikTok link later)
-                body = ""
-                if msg.is_multipart():
-                    for part in msg.walk():
-                        if part.get_content_type() == "text/plain":
-                            body = part.get_payload(decode=True).decode()
-                else:
-                    body = msg.get_payload(decode=True).decode()
+    # SEARCH CRITERIA:
+    # We are searching for ALL emails (even if already read) 
+    # that contain "open claw" in the subject.
+    status, messages = mail.search(None, '(OR SUBJECT "open claw" SUBJECT "openclaw")')
 
-                found_emails.append({"subject": subject, "body": body})
+    email_list = []
+
+    if status == 'OK':
+        # Get the list of email IDs
+        for num in messages[0].split():
+            status, data = mail.fetch(num, '(RFC822)')
+            if status != 'OK':
+                continue
+            
+            raw_email = data[0][1]
+            msg = email.message_from_bytes(raw_email)
+
+            # Decode Subject
+            subject, encoding = decode_header(msg["Subject"])[0]
+            if isinstance(subject, bytes):
+                subject = subject.decode(encoding if encoding else "utf-8")
+
+            # Extract Body
+            body = ""
+            if msg.is_multipart():
+                for part in msg.walk():
+                    content_type = part.get_content_type()
+                    content_disposition = str(part.get("Content-Disposition"))
+                    if content_type == "text/plain" and "attachment" not in content_disposition:
+                        body = part.get_payload(decode=True).decode()
+                        break
+            else:
+                body = msg.get_payload(decode=True).decode()
+
+            email_list.append({
+                "subject": subject,
+                "body": body
+            })
 
     mail.logout()
-    return found_emails
-
-if __name__ == "__main__":
-    print("Scanning for new Open Claw intel, Tracy...")
-    emails = check_for_openclaw_emails()
-    for e in emails:
-        print(f"Target Acquired: {e['subject']}")
+    # Reverse the list so we process oldest to newest
+    return email_list[::-1]
