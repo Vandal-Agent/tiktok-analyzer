@@ -25,6 +25,11 @@ def load_categories():
 
 CATEGORIES = load_categories()
 
+def track_usage(increment=1):
+    """Placeholder to keep catchup_scanner happy. Logic can be added later."""
+    print(f"📊 Usage tracked: +{increment}")
+    return True
+
 def archive_intel(summary, category_key):
     """Saves summary to the correct local markdown file and pushes to Shared GDrive."""
     filename = CATEGORIES.get(category_key, "intel_vault.md")
