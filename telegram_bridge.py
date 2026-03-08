@@ -1,140 +1,89 @@
 import os
-import asyncio
-import subprocess
+import re
 import json
-from datetime import datetime
-from zoneinfo import ZoneInfo
+import subprocess
+import telebot
 from dotenv import load_dotenv
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler, ContextTypes
+import google.generativeai as genai
 
-def track_usage():
-    """Tracks daily API usage and resets at Pacific Time midnight."""
-    tz = ZoneInfo("America/Los_Angeles")
-    today = datetime.now(tz).strftime("%Y-%m-%d")
-    
-    usage_file = "usage.json"
-    data = {"date": today, "count": 0}
-    
-    if os.path.exists(usage_file):
-        with open(usage_file, "r") as f:
-            try:
-                data = json.load(f)
-            except json.JSONDecodeError:
-                pass
-                
-    if data.get("date") != today:
-        data = {"date": today, "count": 0}
-        
-    data["count"] += 1
-    
-    with open(usage_file, "w") as f:
-        json.dump(data, f)
-        
-    return data["count"]
-
-# Local imports from your project
-from email_listener import check_for_openclaw_emails
-from analyze_video import analyze_tiktok
-
+# Load Environment Variables
 load_dotenv()
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
-TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+# Configure AI & Telegram
+genai.configure(api_key=GEMINI_API_KEY)
+bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
 
-def archive_intel(subject, url, analysis):
-    """Routes intel to the correct vault based on keywords in the subject."""
-    # Default vault if no keyword matches
-    filename = "general_vault.md"
+# Load Categories from the shared JSON file
+def load_categories():
+    try:
+        with open('categories.json', 'r') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return {"Default": "intel_vault.md"}
+
+CATEGORIES = load_categories()
+
+def archive_intel(summary, category_key):
+    """Saves summary to the correct local markdown file and pushes to Shared GDrive."""
+    filename = CATEGORIES.get(category_key, "intel_vault.md")
     
-    # Load the categories rules
-    if os.path.exists("categories.json"):
-        with open("categories.json", "r") as f:
-            try:
-                categories = json.load(f)
-                subject_lower = subject.lower()
-                for keyword, vault in categories.items():
-                    if keyword in subject_lower:
-                        filename = vault
-                        break
-            except json.JSONDecodeError:
-                pass
-
+    # Append to local file
     with open(filename, "a") as f:
-        f.write(f"## Target: {subject}\n")
-        f.write(f"**URL:** {url}\n\n")
-        f.write(f"### Analysis:\n{analysis}\n")
-        f.write("\n---\n\n")
+        f.write(f"\n---\n{summary}\n")
+    
+    # Sync to Shared Google Drive Folder via rclone
+    # Using the exact shared path: 'Googs 2 shared with googs 1/TikTok_Intel'
+    subprocess.run(["rclone", "copy", filename, "gdrive:Googs 2 shared with googs 1/TikTok_Intel"])
 
-    # Sync only the specific file that was updated to Google Drive
-    subprocess.run(["rclone", "copy", filename, "gdrive:TikTok_Intel"])
+def analyze_video(video_path):
+    """Uploads video to Gemini for transcription and analysis."""
+    model = genai.GenerativeModel("gemini-1.5-flash")
+    video_file = genai.upload_file(path=video_path)
+    
+    prompt = "Summarize this video. Extract key insights, tools mentioned, and actionable advice."
+    response = model.generate_content([video_file, prompt])
+    return response.text
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Scans inbox and presents the first found email."""
-    await update.message.reply_text("Scanning your inbox for intel, Tracy...")
+@bot.message_handler(commands=['start', 'help'])
+def send_welcome(message):
+    bot.reply_to(message, "Vandal-Agent Active. Send me a TikTok link to analyze it, or type /sweep to check your inbox.")
 
-    emails = check_for_openclaw_emails()
+@bot.message_handler(func=lambda m: "tiktok.com" in m.text)
+def handle_tiktok(message):
+    url = re.search(r'(https?://[^\s]+)', message.text).group(1)
+    bot.reply_to(message, f"🎬 Processing video from: {url}")
+    
+    try:
+        # Download video
+        subprocess.run(["yt-dlp", "-o", "temp_video.mp4", url], check=True)
+        
+        # Analyze
+        summary = analyze_video("temp_video.mp4")
+        
+        # Determine Category (Simple keyword check for now)
+        category = "Default"
+        for key in CATEGORIES.keys():
+            if key.lower() in message.text.lower():
+                category = key
+                break
+        
+        # Archive
+        archive_intel(summary, category)
+        
+        bot.reply_to(message, f"✅ Success! Saved to {CATEGORIES[category]}")
+        os.remove("temp_video.mp4")
+        
+    except Exception as e:
+        bot.reply_to(message, f"❌ Error: {str(e)}")
 
-    if not emails:
-        await update.message.reply_text("No new emails found right now.")
-        return
+@bot.message_handler(commands=['sweep'])
+def manual_sweep(message):
+    bot.reply_to(message, "🚀 Starting manual inbox sweep...")
+    subprocess.run(["python3", "catchup_scanner.py"])
+    bot.reply_to(message, "🏁 Sweep complete. Vaults updated.")
 
-    first_email = emails[0]
-    context.user_data['current_item'] = first_email
-
-    keyboard = [[InlineKeyboardButton("✅ Process", callback_data="yes"),
-                 InlineKeyboardButton("⏭️ Skip", callback_data="no")]]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-
-    await update.message.reply_text(
-        f"📩 **Found:** {first_email['subject']}\nWould you like to analyze this?",
-        reply_markup=reply_markup
-    )
-
-async def handle_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Processes your choice for the current email."""
-    query = update.callback_query
-    await query.answer()
-
-    current = context.user_data.get('current_item')
-
-    if not current:
-        await query.edit_message_text(text="⚠️ **Session timed out.** Please run /start again.")
-        return
-
-    if query.data == "yes":
-        subject = current.get('subject', 'Unknown Subject')
-        await query.edit_message_text(text=f"🚀 **Processing:** {subject}...")
-
-        body = current.get('body', '')
-        tiktok_url = next((line for line in body.split() if "tiktok.com" in line), None)
-
-        if not tiktok_url:
-            await query.message.reply_text("❌ No TikTok link found in that email.")
-            return
-
-        await query.message.reply_text("🧠 **Ripping video and analyzing...**")
-        analysis_result = analyze_tiktok(tiktok_url)
-
-        current_count = track_usage()
-        usage_msg = f"\n\n📈 **Daily API Usage:** {current_count} / 1500"
-
-        # Save to the correct vault
-        archive_intel(subject, tiktok_url, analysis_result)
-
-        await query.message.reply_text(f"✅ **Analysis Complete:** Intel securely archived to Google Drive.{usage_msg}")
-
-        # Quota Alarms
-        if current_count == 1050:
-            await query.message.reply_text("⚠️ **ALARM: 70% QUOTA REACHED!** ⚠️")
-        elif current_count > 1050:
-            await query.message.reply_text(f"⚠️ **WARNING:** Danger zone ({current_count}/1500).")
-
-    elif query.data == "no":
-        await query.edit_message_text(text=f"⏭️ **Skipped:** {current.get('subject')}")
-
-if __name__ == '__main__':
-    application = ApplicationBuilder().token(TOKEN).build()
-    application.add_handler(CommandHandler('start', start))
-    application.add_handler(CallbackQueryHandler(handle_button))
-    print("AnalyzerOfTikTokBot is online and standing by, Tracy.")
-    application.run_polling()
+if __name__ == "__main__":
+    print("Bot is running...")
+    bot.polling()
