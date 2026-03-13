@@ -1,1 +1,7 @@
-{"date": "2026-03-07", "count": 116}
+{
+  "month": "2026-03",
+  "processed": 1,
+  "duplicates_skipped": 1,
+  "failed_downloads": 0,
+  "failed_analysis": 0
+}
