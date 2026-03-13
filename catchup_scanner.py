@@ -1,54 +1,49 @@
-import os
-import subprocess
-import json
-from datetime import datetime
-from zoneinfo import ZoneInfo
-from dotenv import load_dotenv
-
-from email_listener import check_for_openclaw_emails
-from analyze_video import analyze_tiktok
-from telegram_bridge import track_usage, archive_intel
-
-load_dotenv("/home/vandal/.env")
+from email_listener import check_for_tiktok_emails
+from tiktok_pipeline import process_tiktok_url
 
 
-def run_catchup():
-    print("🚀 Starting Inbox Catchup Sweep...")
+def run_catchup(limit=5):
+    print("🚀 Starting inbox catchup sweep...")
 
-    emails = check_for_openclaw_emails()
+    emails = check_for_tiktok_emails(limit=limit)
 
     if not emails:
-        print("✅ No matching emails found in your inbox. Backlog is clear!")
+        print("✅ No matching TikTok emails found.")
         return
 
-    print(f"📂 Found {len(emails)} emails to process. Starting loop...\n")
+    print(f"📂 Found {len(emails)} email(s) to process.\n")
 
-    for index, email in enumerate(emails):
-        subject = email.get("subject", "Unknown Subject")
-        body = email.get("body", "")
+    for index, email_item in enumerate(emails, start=1):
+        subject = email_item.get("subject", "No Subject")
+        url = email_item.get("tiktok_url", "")
+        from_address = email_item.get("from_address", "unknown")
+        message_num = email_item.get("message_num")
 
-        tiktok_url = next((line for line in body.split() if "tiktok.com" in line), None)
+        print(f"[{index}/{len(emails)}] Processing: {subject}")
+        print(f"From: {from_address}")
+        print(f"URL: {url}")
 
-        if not tiktok_url:
-            print(f"⏩ Skipping [{index+1}/{len(emails)}]: No TikTok link found in '{subject}'")
-            continue
+        result = process_tiktok_url(url, source="email")
+        status = result.get("status")
 
-        print(f"🎬 Processing [{index+1}/{len(emails)}]: {subject}")
+        if status in {"success", "duplicate", "download_failed"}:
+            check_for_tiktok_emails(
+                action="move_processed",
+                message_num=message_num
+            )
+            print(f"✅ Done: {status}\n")
 
-        try:
-            analysis_result = analyze_tiktok(tiktok_url)
+        elif status == "analysis_failed":
+            print("❌ Analysis failed after retry. Leaving email in inbox.\n")
 
-            archive_intel(subject, tiktok_url, analysis_result)
+        elif status == "sync_failed":
+            print("⚠️ Drive sync failed. Leaving email in inbox for review.\n")
 
-            count = track_usage()
+        else:
+            print(f"⚠️ Unknown status: {status}\n")
 
-            print(f"✅ Success! Saved to Drive. (Daily Usage: {count}/1500)")
-
-        except Exception as e:
-            print(f"❌ Error processing '{subject}': {e}")
-
-    print("\n🏁 Catchup Sweep Complete! Your NotebookLM vaults are up to date.")
+    print("🏁 Catchup sweep complete.")
 
 
 if __name__ == "__main__":
-    run_catchup()
+    run_catchup(limit=5)

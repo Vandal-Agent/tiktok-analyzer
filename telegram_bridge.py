@@ -1,98 +1,88 @@
 import os
 import re
-import json
-import subprocess
 import telebot
 from dotenv import load_dotenv
-import google.generativeai as genai
 
-# Load central environment file
+from tiktok_pipeline import process_tiktok_url, get_usage_summary
+
 load_dotenv("/home/vandal/.env")
 
 TELEGRAM_BOT_TOKEN = os.getenv("TIKTOK_TELEGRAM_BOT_TOKEN")
-GEMINI_API_KEY = os.getenv("TIKTOK_GEMINI_API_KEY")
 
-# Configure AI & Telegram
-genai.configure(api_key=GEMINI_API_KEY)
 bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
-
-# Load Categories from the shared JSON file
-def load_categories():
-    try:
-        with open("categories.json", "r") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        return {"Default": "intel_vault.txt"}
-
-
-CATEGORIES = load_categories()
-
-
-def track_usage(increment=1):
-    print(f"📊 Usage tracked: +{increment}")
-    return True
-
-
-def archive_intel(summary, category_key):
-    filename = CATEGORIES.get(category_key, "intel_vault.txt")
-
-    with open(filename, "a") as f:
-        f.write(f"\n---\n{summary}\n")
-
-    subprocess.run(
-        ["rclone", "copy", filename, "gdrive:Googs 2 shared with googs 1/TikTok_Intel"]
-    )
-
-
-def analyze_video(video_path):
-    model = genai.GenerativeModel("gemini-1.5-flash")
-    video_file = genai.upload_file(path=video_path)
-
-    prompt = "Summarize this video. Extract key insights, tools mentioned, and actionable advice."
-    response = model.generate_content([video_file, prompt])
-    return response.text
 
 
 @bot.message_handler(commands=["start", "help"])
 def send_welcome(message):
     bot.reply_to(
         message,
-        "Vandal-Agent Active. Send me a TikTok link to analyze it, or type /sweep to check your inbox.",
+        "Vandal-Agent Active.\n\n"
+        "Send a TikTok link to analyze it.\n"
+        "Commands:\n"
+        "/stats - show monthly processing stats\n"
+        "/sweep - run inbox sweep manually"
     )
+
+
+@bot.message_handler(commands=["stats"])
+def send_stats(message):
+    stats = get_usage_summary()
+    bot.reply_to(message, f"📊 TikTok Research Stats\n\n{stats}")
 
 
 @bot.message_handler(func=lambda m: m.text and "tiktok.com" in m.text)
 def handle_tiktok(message):
-    url = re.search(r"(https?://[^\s]+)", message.text).group(1)
-    bot.reply_to(message, f"🎬 Processing video from: {url}")
 
-    try:
-        subprocess.run(["yt-dlp", "-o", "temp_video.mp4", url], check=True)
+    match = re.search(r"(https?://[^\s]+)", message.text)
 
-        summary = analyze_video("temp_video.mp4")
+    if not match:
+        bot.reply_to(message, "❌ Could not find a valid TikTok link.")
+        return
 
-        category = "Default"
-        for key in CATEGORIES.keys():
-            if key.lower() in message.text.lower():
-                category = key
-                break
+    url = match.group(1)
 
-        archive_intel(summary, category)
+    bot.reply_to(message, f"🎬 Processing TikTok...\n{url}")
 
-        bot.reply_to(message, f"✅ Success! Saved to {CATEGORIES[category]}")
-        os.remove("temp_video.mp4")
+    result = process_tiktok_url(url, source="telegram")
 
-    except Exception as e:
-        bot.reply_to(message, f"❌ Error: {str(e)}")
+    status = result.get("status")
+
+    if status == "success":
+        bot.reply_to(
+            message,
+            f"✅ Saved\n\n"
+            f"Title: {result.get('title')}\n"
+            f"Creator: {result.get('creator')}\n"
+            f"Tags: {', '.join(result.get('tags', []))}"
+        )
+
+    elif status == "duplicate":
+        bot.reply_to(message, "⚠️ That TikTok was already processed.")
+
+    elif status == "download_failed":
+        bot.reply_to(message, "❌ Video download failed.")
+
+    elif status == "analysis_failed":
+        bot.reply_to(message, "❌ Gemini analysis failed.")
+
+    elif status == "sync_failed":
+        bot.reply_to(message, "⚠️ Saved locally but Drive sync failed.")
+
+    else:
+        bot.reply_to(message, f"⚠️ Unknown result: {status}")
 
 
 @bot.message_handler(commands=["sweep"])
 def manual_sweep(message):
-    bot.reply_to(message, "🚀 Starting manual inbox sweep...")
+    import subprocess
+
+    bot.reply_to(message, "🚀 Running inbox sweep...")
+
     subprocess.run(["python3", "catchup_scanner.py"])
-    bot.reply_to(message, "🏁 Sweep complete. Vaults updated.")
+
+    bot.reply_to(message, "🏁 Sweep complete.")
 
 
 if __name__ == "__main__":
-    print("Bot is running...")
+    print("TikTok Telegram bot running...")
     bot.polling()
