@@ -1779,3 +1779,161 @@ https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/READM
   import google.generativeai as genai
 🚀 Starting Inbox Catchup Sweep...
 ✅ No matching emails found in your inbox. Backlog is clear!
+/home/vandal/lab/tiktok-analyzer/telegram_bridge.py:7: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+🚀 Starting Inbox Catchup Sweep...
+✅ No matching emails found in your inbox. Backlog is clear!
+[download]   0.0% of    4.80MiB at  Unknown B/s ETA Unknown🚀 Starting inbox catchup sweep...
+📂 Found 5 email(s) to process.
+
+[1/5] Processing: Open claw vector memory 
+From: tracy hardman <tracy644@icloud.com>
+URL: https://www.tiktok.com/t/ZP8qeJR9t/
+[download]   0.1% of    4.80MiB at    1.35MiB/s ETA 00:03  [download]   0.1% of    4.80MiB at    2.35MiB/s ETA 00:02[download]   0.3% of    4.80MiB at    4.18MiB/s ETA 00:01[download]   0.6% of    4.80MiB at    7.29MiB/s ETA 00:00[download]   1.3% of    4.80MiB at   12.24MiB/s ETA 00:00[download]   2.6% of    4.80MiB at   18.50MiB/s ETA 00:00[download]   5.2% of    4.80MiB at   30.22MiB/s ETA 00:00[download]  10.4% of    4.80MiB at   49.85MiB/s ETA 00:00[download]  20.8% of    4.80MiB at   81.87MiB/s ETA 00:00[download]  41.6% of    4.80MiB at  108.59MiB/s ETA 00:00[download]  83.2% of    4.80MiB at  132.85MiB/s ETA 00:00[download] 100.0% of    4.80MiB at   63.99MiB/s ETA 00:00[download] 100% of    4.80MiB in 00:00:00 at 29.99MiB/s                                                         [download]   0.0% of    4.77MiB at  Unknown B/s ETA Unknown✅ Done: success
+
+[2/5] Processing: Kimmy klaw 
+From: tracy hardman <tracy644@icloud.com>
+URL: https://www.tiktok.com/t/ZP84K7Yo1/
+[download]   0.1% of    4.77MiB at    2.41MiB/s ETA 00:01  [download]   0.1% of    4.77MiB at    3.54MiB/s ETA 00:01[download]   0.3% of    4.77MiB at    6.01MiB/s ETA 00:00[download]   0.6% of    4.77MiB at    9.79MiB/s ETA 00:00[download]   1.3% of    4.77MiB at   16.33MiB/s ETA 00:00[download]   2.6% of    4.77MiB at   20.95MiB/s ETA 00:00[download]   5.2% of    4.77MiB at   32.37MiB/s ETA 00:00[download]  10.5% of    4.77MiB at   41.78MiB/s ETA 00:00[download]  21.0% of    4.77MiB at   62.01MiB/s ETA 00:00[download]  41.9% of    4.77MiB at   84.37MiB/s ETA 00:00[download]  83.9% of    4.77MiB at   57.08MiB/s ETA 00:00[download] 100.0% of    4.77MiB at   62.78MiB/s ETA 00:00[download] 100% of    4.77MiB in 00:00:00 at 10.13MiB/s                                                         [download]   0.3% of  389.40KiB at  Unknown B/s ETA Unknown✅ Done: success
+
+[3/5] Processing: Improving open claw
+From: tracy hardman <tracy644@icloud.com>
+URL: https://www.tiktok.com/t/ZP84tpGu9/
+[download]   0.8% of  389.40KiB at    2.08MiB/s ETA 00:00  [download]   1.8% of  389.40KiB at    3.48MiB/s ETA 00:00[download]   3.9% of  389.40KiB at    5.65MiB/s ETA 00:00[download]   8.0% of  389.40KiB at    9.49MiB/s ETA 00:00[download]  16.2% of  389.40KiB at   15.39MiB/s ETA 00:00[download]  32.6% of  389.40KiB at   20.08MiB/s ETA 00:00[download]  65.5% of  389.40KiB at   29.96MiB/s ETA 00:00[download] 100.0% of  389.40KiB at   35.61MiB/s ETA 00:00[download] 100% of  389.40KiB in 00:00:00 at 3.59MiB/s                                                         [download]   0.1% of    1.28MiB at  Unknown B/s ETA Unknown✅ Done: success
+
+[4/5] Processing: Open claw, Google workspace CLI
+From: tracy hardman <tracy644@icloud.com>
+URL: https://www.tiktok.com/t/ZP84Gefvu/
+[download]   0.2% of    1.28MiB at    2.14MiB/s ETA 00:00  [download]   0.5% of    1.28MiB at    3.37MiB/s ETA 00:00[download]   1.1% of    1.28MiB at    5.46MiB/s ETA 00:00[download]   2.4% of    1.28MiB at    1.45MiB/s ETA 00:00[download]   4.8% of    1.28MiB at    2.77MiB/s ETA 00:00[download]   9.7% of    1.28MiB at    2.84MiB/s ETA 00:00[download]  19.5% of    1.28MiB at    3.79MiB/s ETA 00:00[download]  39.1% of    1.28MiB at    5.69MiB/s ETA 00:00[download]  78.2% of    1.28MiB at    9.06MiB/s ETA 00:00[download] 100.0% of    1.28MiB at   11.40MiB/s ETA 00:00[download] 100% of    1.28MiB in 00:00:00 at 3.41MiB/s                                                         [download]   0.1% of    1.90MiB at  Unknown B/s ETA Unknown✅ Done: success
+
+[5/5] Processing: Open claw Mission control
+From: tracy hardman <tracy644@icloud.com>
+URL: https://www.tiktok.com/t/ZP84brnde/
+[download]   0.2% of    1.90MiB at    1.87MiB/s ETA 00:01  [download]   0.4% of    1.90MiB at    3.27MiB/s ETA 00:00[download]   0.8% of    1.90MiB at    5.44MiB/s ETA 00:00[download]   1.6% of    1.90MiB at    9.16MiB/s ETA 00:00[download]   3.2% of    1.90MiB at   15.71MiB/s ETA 00:00[download]   6.5% of    1.90MiB at   21.42MiB/s ETA 00:00[download]  13.1% of    1.90MiB at   37.09MiB/s ETA 00:00[download]  26.2% of    1.90MiB at   60.08MiB/s ETA 00:00[download]  52.5% of    1.90MiB at   81.99MiB/s ETA 00:00[download] 100.0% of    1.90MiB at  104.42MiB/s ETA 00:00[download] 100% of    1.90MiB in 00:00:00 at 18.18MiB/s                                                         ✅ Done: success
+
+🏁 Catchup sweep complete.
+[download]   0.0% of    3.63MiB at  Unknown B/s ETA Unknown🚀 Starting inbox catchup sweep...
+📂 Found 5 email(s) to process.
+
+[1/5] Processing: Open Clock and Google Gemini
+From: tracy hardman <tracy644@icloud.com>
+URL: https://www.tiktok.com/t/ZP84CBQMY/
+[download]   0.1% of    3.63MiB at    1.39MiB/s ETA 00:02  [download]   0.2% of    3.63MiB at    2.49MiB/s ETA 00:01[download]   0.4% of    3.63MiB at    4.09MiB/s ETA 00:00[download]   0.8% of    3.63MiB at    6.91MiB/s ETA 00:00[download]   1.7% of    3.63MiB at   10.89MiB/s ETA 00:00[download]   3.4% of    3.63MiB at   13.02MiB/s ETA 00:00[download]   6.9% of    3.63MiB at   11.96MiB/s ETA 00:00[download]  13.7% of    3.63MiB at    6.03MiB/s ETA 00:00[download]  27.5% of    3.63MiB at    6.87MiB/s ETA 00:00[download]  55.0% of    3.63MiB at    9.46MiB/s ETA 00:00[download] 100.0% of    3.63MiB at   13.19MiB/s ETA 00:00[download] 100% of    3.63MiB in 00:00:00 at 9.66MiB/s                                                         [download]   0.0% of   15.83MiB at  Unknown B/s ETA Unknown✅ Done: success
+
+[2/5] Processing: Open claw, AI agents
+From: tracy hardman <tracy644@icloud.com>
+URL: https://www.tiktok.com/t/ZP84Qoj8E/
+[download]   0.0% of   15.83MiB at    1.91MiB/s ETA 00:08  [download]   0.0% of   15.83MiB at    2.34MiB/s ETA 00:06[download]   0.1% of   15.83MiB at    4.26MiB/s ETA 00:03[download]   0.2% of   15.83MiB at    6.25MiB/s ETA 00:02[download]   0.4% of   15.83MiB at   11.47MiB/s ETA 00:01[download]   0.8% of   15.83MiB at   17.97MiB/s ETA 00:00[download]   1.6% of   15.83MiB at   29.95MiB/s ETA 00:00[download]   3.2% of   15.83MiB at   50.71MiB/s ETA 00:00[download]   6.3% of   15.83MiB at   58.06MiB/s ETA 00:00[download]  12.6% of   15.83MiB at   55.81MiB/s ETA 00:00[download]  25.3% of   15.83MiB at   65.18MiB/s ETA 00:00[download]  50.5% of   15.83MiB at   60.36MiB/s ETA 00:00[download]  75.8% of   15.83MiB at   61.10MiB/s ETA 00:00[download] 100.0% of   15.83MiB at   59.20MiB/s ETA 00:00[download] 100% of   15.83MiB in 00:00:00 at 40.13MiB/s                                                         [download]   0.0% of   12.06MiB at  Unknown B/s ETA Unknown✅ Done: success
+
+[3/5] Processing: Open claw improvements
+From: tracy hardman <tracy644@icloud.com>
+URL: https://www.tiktok.com/t/ZP84QcER2/
+[download]   0.0% of   12.06MiB at    1.82MiB/s ETA 00:06  [download]   0.1% of   12.06MiB at    2.92MiB/s ETA 00:04[download]   0.1% of   12.06MiB at    4.00MiB/s ETA 00:03[download]   0.3% of   12.06MiB at    6.90MiB/s ETA 00:01[download]   0.5% of   12.06MiB at   12.21MiB/s ETA 00:00[download]   1.0% of   12.06MiB at   19.48MiB/s ETA 00:00[download]   2.1% of   12.06MiB at   31.34MiB/s ETA 00:00[download]   4.1% of   12.06MiB at   50.46MiB/s ETA 00:00[download]   8.3% of   12.06MiB at   66.46MiB/s ETA 00:00[download]  16.6% of   12.06MiB at   63.63MiB/s ETA 00:00[download]  33.1% of   12.06MiB at   68.71MiB/s ETA 00:00[download]  66.3% of   12.06MiB at   73.56MiB/s ETA 00:00[download]  99.5% of   12.06MiB at   76.05MiB/s ETA 00:00[download] 100.0% of   12.06MiB at   75.93MiB/s ETA 00:00[download] 100% of   12.06MiB in 00:00:00 at 47.45MiB/s                                                         [download]   0.1% of    1.20MiB at  Unknown B/s ETA Unknown✅ Done: success
+
+[4/5] Processing: Open claw skills 
+From: tracy hardman <tracy644@icloud.com>
+URL: https://www.tiktok.com/t/ZP84Dtyq4/
+[download]   0.2% of    1.20MiB at    2.14MiB/s ETA 00:00  [download]   0.6% of    1.20MiB at    3.11MiB/s ETA 00:00[download]   1.2% of    1.20MiB at    5.10MiB/s ETA 00:00[download]   2.5% of    1.20MiB at    8.59MiB/s ETA 00:00[download]   5.1% of    1.20MiB at   15.05MiB/s ETA 00:00[download]  10.4% of    1.20MiB at   21.54MiB/s ETA 00:00[download]  20.8% of    1.20MiB at   36.24MiB/s ETA 00:00[download]  41.7% of    1.20MiB at   60.40MiB/s ETA 00:00[download]  83.6% of    1.20MiB at   96.02MiB/s ETA 00:00[download] 100.0% of    1.20MiB at   98.41MiB/s ETA 00:00[download] 100% of    1.20MiB in 00:00:00 at 11.70MiB/s                                                         [download]   0.0% of   10.90MiB at  Unknown B/s ETA Unknown✅ Done: success
+
+[5/5] Processing: Open claw Google cli connection 
+From: tracy hardman <tracy644@icloud.com>
+URL: https://www.tiktok.com/t/ZP84BJJ6d/
+[download]   0.0% of   10.90MiB at    2.59MiB/s ETA 00:04  [download]   0.1% of   10.90MiB at    3.78MiB/s ETA 00:02[download]   0.1% of   10.90MiB at    6.33MiB/s ETA 00:01[download]   0.3% of   10.90MiB at   10.44MiB/s ETA 00:01[download]   0.6% of   10.90MiB at   16.64MiB/s ETA 00:00[download]   1.1% of   10.90MiB at   21.38MiB/s ETA 00:00[download]   2.3% of   10.90MiB at   31.16MiB/s ETA 00:00[download]   4.6% of   10.90MiB at   40.86MiB/s ETA 00:00[download]   9.2% of   10.90MiB at   54.75MiB/s ETA 00:00[download]  18.3% of   10.90MiB at   72.80MiB/s ETA 00:00[download]  36.7% of   10.90MiB at   74.72MiB/s ETA 00:00[download]  73.4% of   10.90MiB at   74.06MiB/s ETA 00:00[download] 100.0% of   10.90MiB at   74.92MiB/s ETA 00:00[download] 100% of   10.90MiB in 00:00:00 at 43.67MiB/s                                                         ✅ Done: success
+
+🏁 Catchup sweep complete.
+[download]   0.1% of  973.21KiB at  Unknown B/s ETA Unknown🚀 Starting inbox catchup sweep...
+📂 Found 5 email(s) to process.
+
+[1/5] Processing: Open claw 
+From: tracy hardman <tracy644@icloud.com>
+URL: https://www.tiktok.com/t/ZP8Xs8TJC/
+[download]   0.3% of  973.21KiB at    1.61MiB/s ETA 00:00  [download]   0.7% of  973.21KiB at    2.57MiB/s ETA 00:00[download]   1.5% of  973.21KiB at    4.42MiB/s ETA 00:00[download]   3.2% of  973.21KiB at    7.11MiB/s ETA 00:00[download]   6.5% of  973.21KiB at   11.82MiB/s ETA 00:00[download]  13.0% of  973.21KiB at   16.79MiB/s ETA 00:00[download]  26.2% of  973.21KiB at   25.41MiB/s ETA 00:00[download]  52.5% of  973.21KiB at   43.57MiB/s ETA 00:00[download] 100.0% of  973.21KiB at   66.58MiB/s ETA 00:00[download] 100% of  973.21KiB in 00:00:00 at 9.53MiB/s                                                         [download]   0.0% of    4.45MiB at  Unknown B/s ETA Unknown✅ Done: success
+
+[2/5] Processing: Open claw notebook lm 
+From: tracy hardman <tracy644@icloud.com>
+URL: https://www.tiktok.com/t/ZP8XRcUPt/
+[download]   0.1% of    4.45MiB at    2.90MiB/s ETA 00:01  [download]   0.2% of    4.45MiB at    4.02MiB/s ETA 00:01[download]   0.3% of    4.45MiB at    6.33MiB/s ETA 00:00[download]   0.7% of    4.45MiB at   10.30MiB/s ETA 00:00[download]   1.4% of    4.45MiB at   17.59MiB/s ETA 00:00[download]   2.8% of    4.45MiB at   25.23MiB/s ETA 00:00[download]   5.6% of    4.45MiB at   41.08MiB/s ETA 00:00[download]  11.2% of    4.45MiB at   59.66MiB/s ETA 00:00[download]  22.5% of    4.45MiB at   84.77MiB/s ETA 00:00[download]  44.9% of    4.45MiB at  125.93MiB/s ETA 00:00[download]  89.9% of    4.45MiB at   59.42MiB/s ETA 00:00[download] 100.0% of    4.45MiB at   62.97MiB/s ETA 00:00[download] 100% of    4.45MiB in 00:00:00 at 14.43MiB/s                                                         [download]   0.0% of    9.55MiB at  Unknown B/s ETA Unknown✅ Done: success
+
+[3/5] Processing: Vibe with Kevin on TikTok open claw
+From: tracy hardman <tracy644@icloud.com>
+URL: https://www.tiktok.com/t/ZP8Xp1wvJ/
+[download]   0.0% of    9.55MiB at    2.80MiB/s ETA 00:03  [download]   0.1% of    9.55MiB at    4.27MiB/s ETA 00:02[download]   0.2% of    9.55MiB at    6.31MiB/s ETA 00:01[download]   0.3% of    9.55MiB at    1.64MiB/s ETA 00:05[download]   0.6% of    9.55MiB at    3.14MiB/s ETA 00:03[download]   1.3% of    9.55MiB at    3.16MiB/s ETA 00:02[download]   2.6% of    9.55MiB at    4.21MiB/s ETA 00:02[download]   5.2% of    9.55MiB at    6.35MiB/s ETA 00:01[download]  10.5% of    9.55MiB at   10.07MiB/s ETA 00:00[download]  20.9% of    9.55MiB at   16.64MiB/s ETA 00:00[download]  41.9% of    9.55MiB at   24.45MiB/s ETA 00:00[download]  83.7% of    9.55MiB at   38.31MiB/s ETA 00:00[download] 100.0% of    9.55MiB at   40.19MiB/s ETA 00:00[download] 100% of    9.55MiB in 00:00:00 at 17.43MiB/s                                                         [download]   0.0% of   14.60MiB at  883.38KiB/s ETA 00:17✅ Done: success
+
+[4/5] Processing: Tech
+From: tracy hardman <tracy644@icloud.com>
+URL: https://www.tiktok.com/t/ZP8XXapWB/
+[download]   0.0% of   14.60MiB at    1.58MiB/s ETA 00:09[download]   0.0% of   14.60MiB at    2.79MiB/s ETA 00:05[download]   0.1% of   14.60MiB at    4.89MiB/s ETA 00:02[download]   0.2% of   14.60MiB at    8.48MiB/s ETA 00:01[download]   0.4% of   14.60MiB at    3.43MiB/s ETA 00:04[download]   0.8% of   14.60MiB at    3.29MiB/s ETA 00:04[download]   1.7% of   14.60MiB at    4.37MiB/s ETA 00:03[download]   3.4% of   14.60MiB at    6.45MiB/s ETA 00:02[download]   6.8% of   14.60MiB at   10.22MiB/s ETA 00:01[download]  13.7% of   14.60MiB at   16.28MiB/s ETA 00:00[download]  27.4% of   14.60MiB at   21.61MiB/s ETA 00:00[download]  54.8% of   14.60MiB at   31.32MiB/s ETA 00:00[download]  82.2% of   14.60MiB at   36.74MiB/s ETA 00:00[download] 100.0% of   14.60MiB at   40.25MiB/s ETA 00:00[download] 100% of   14.60MiB in 00:00:00 at 19.27MiB/s                                                         [download]   0.0% of    7.51MiB at  Unknown B/s ETA Unknown✅ Done: success
+
+[5/5] Processing: Rob on TikTok
+From: tracy hardman <tracy644@icloud.com>
+URL: https://www.tiktok.com/t/ZP8C3tMdW/
+[download]   0.0% of    7.51MiB at    1.89MiB/s ETA 00:03  [download]   0.1% of    7.51MiB at    2.16MiB/s ETA 00:03[download]   0.2% of    7.51MiB at    3.03MiB/s ETA 00:02[download]   0.4% of    7.51MiB at    5.14MiB/s ETA 00:01[download]   0.8% of    7.51MiB at    9.31MiB/s ETA 00:00[download]   1.7% of    7.51MiB at   14.65MiB/s ETA 00:00[download]   3.3% of    7.51MiB at   26.09MiB/s ETA 00:00[download]   6.6% of    7.51MiB at   44.31MiB/s ETA 00:00[download]  13.3% of    7.51MiB at   77.35MiB/s ETA 00:00[download]  26.6% of    7.51MiB at   73.34MiB/s ETA 00:00[download]  53.2% of    7.51MiB at   50.23MiB/s ETA 00:00[download] 100.0% of    7.51MiB at   54.83MiB/s ETA 00:00[download] 100% of    7.51MiB in 00:00:00 at 23.42MiB/s                                                         ✅ Done: success
+
+🏁 Catchup sweep complete.
+[download] 100% of 1004.00KiB🚀 Starting inbox catchup sweep...
+📂 Found 5 email(s) to process.
+
+[1/5] Processing: Vibecode on TikTok
+From: tracy hardman <tracy644@icloud.com>
+URL: https://www.tiktok.com/t/ZP8x2K6yH/
+                             ERROR: unable to download video data: HTTP Error 416: Range Not Satisfiable
+[download]   0.0% of    8.12MiB at  Unknown B/s ETA Unknown✅ Done: success
+
+[2/5] Processing: matthewberman on TikTok
+From: tracy hardman <tracy644@icloud.com>
+URL: https://www.tiktok.com/t/ZP8x2kMkT/
+✅ Done: download_failed
+
+[3/5] Processing: Brand Nat | AI Automation on TikTok
+From: tracy hardman <tracy644@icloud.com>
+URL: https://www.tiktok.com/t/ZP8x2meyo/
+[download]   0.0% of    8.12MiB at    1.32MiB/s ETA 00:06  [download]   0.1% of    8.12MiB at    2.46MiB/s ETA 00:03[download]   0.2% of    8.12MiB at  232.60KiB/s ETA 00:35[download]   0.4% of    8.12MiB at  418.54KiB/s ETA 00:19[download]   0.8% of    8.12MiB at  381.85KiB/s ETA 00:21[download]   1.5% of    8.12MiB at  479.71KiB/s ETA 00:17[download]   3.1% of    8.12MiB at  664.26KiB/s ETA 00:12[download]   6.1% of    8.12MiB at    1.04MiB/s ETA 00:07[download]  12.3% of    8.12MiB at    1.73MiB/s ETA 00:04[download]  24.6% of    8.12MiB at    2.95MiB/s ETA 00:02[download]  49.2% of    8.12MiB at    5.09MiB/s ETA 00:00[download]  98.5% of    8.12MiB at    8.68MiB/s ETA 00:00[download] 100.0% of    8.12MiB at    8.80MiB/s ETA 00:00[download] 100% of    8.12MiB in 00:00:01 at 5.33MiB/s                                                         [download] 100% of    6.28MiB❌ Analysis failed after retry. Leaving email in inbox.
+
+[4/5] Processing: Marcin AI on TikTok
+From: tracy hardman <tracy644@icloud.com>
+URL: https://www.tiktok.com/t/ZP8x2AbUC/
+                             [download]   0.0% of    2.26MiB at  Unknown B/s ETA Unknown✅ Done: success
+
+[5/5] Processing: Rostyslav Dzhohola on TikTok
+From: tracy hardman <tracy644@icloud.com>
+URL: https://www.tiktok.com/t/ZP8x24ys8/
+[download]   0.1% of    2.26MiB at    1.13MiB/s ETA 00:02  [download]   0.3% of    2.26MiB at    2.18MiB/s ETA 00:01[download]   0.6% of    2.26MiB at    2.75MiB/s ETA 00:00[download]   1.3% of    2.26MiB at    5.18MiB/s ETA 00:00[download]   2.7% of    2.26MiB at    9.60MiB/s ETA 00:00[download]   5.5% of    2.26MiB at   15.31MiB/s ETA 00:00[download]  11.0% of    2.26MiB at   24.65MiB/s ETA 00:00[download]  22.1% of    2.26MiB at   42.21MiB/s ETA 00:00[download]  44.2% of    2.26MiB at   73.55MiB/s ETA 00:00[download]  88.5% of    2.26MiB at  115.24MiB/s ETA 00:00[download] 100.0% of    2.26MiB at  123.08MiB/s ETA 00:00[download] 100% of    2.26MiB in 00:00:00 at 47.96MiB/s                                                         ✅ Done: success
+
+🏁 Catchup sweep complete.
+🚀 Starting inbox catchup sweep...
+📂 Found 5 email(s) to process.
+
+[1/5] Processing: @AngularEd on TikTok
+From: tracy hardman <tracy644@icloud.com>
+URL: https://www.tiktok.com/t/ZP8x2D7et/
+Traceback (most recent call last):
+  File "/home/vandal/lab/tiktok-analyzer/catchup_scanner.py", line 49, in <module>
+    run_catchup(limit=5)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "/home/vandal/lab/tiktok-analyzer/catchup_scanner.py", line 26, in run_catchup
+    result = process_tiktok_url(url, source="email")
+TypeError: process_tiktok_url() got an unexpected keyword argument 'source'
+🚀 Starting inbox catchup sweep...
+📂 Found 2 email(s) to process.
+
+[1/2] Processing: Colton Holland on TikTok
+From: tracy hardman <tracy644@icloud.com>
+URL: https://www.tiktok.com/t/ZP8xY57Mr/
+Traceback (most recent call last):
+  File "/home/vandal/lab/tiktok-analyzer/catchup_scanner.py", line 49, in <module>
+    run_catchup(limit=5)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "/home/vandal/lab/tiktok-analyzer/catchup_scanner.py", line 26, in run_catchup
+    result = process_tiktok_url(url, source="email")
+TypeError: process_tiktok_url() got an unexpected keyword argument 'source'
+🚀 Starting inbox catchup sweep...
+✅ No matching TikTok emails found.
+🚀 Starting inbox catchup sweep...
+✅ No matching TikTok emails found.

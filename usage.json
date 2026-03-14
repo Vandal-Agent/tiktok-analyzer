@@ -1,7 +1,10 @@
 {
   "month": "2026-03",
   "processed": 1,
-  "duplicates_skipped": 1,
-  "failed_downloads": 0,
-  "failed_analysis": 0
+  "duplicates": 0,
+  "download_fail": 0,
+  "analysis_fail": 0,
+  "urls": [
+    "https://www.tiktok.com/t/ZP8qGjMDf/"
+  ]
 }

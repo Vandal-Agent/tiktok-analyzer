@@ -11,5 +11,417 @@
       "automation",
       "iphone"
     ]
+  },
+  "https://www.tiktok.com/t/ZP8qeJR9t/": {
+    "processed_at": "2026-03-13T12:00:34.740405-07:00",
+    "source": "email",
+    "filename": "2026-03-13-openclaw-ai-memory-system.md",
+    "title": "OpenClaw AI Memory System",
+    "tags": [
+      "ai",
+      "vector database",
+      "local ai",
+      "privacy",
+      "semantic search",
+      "rag"
+    ]
+  },
+  "https://www.tiktok.com/t/ZP84K7Yo1/": {
+    "processed_at": "2026-03-13T12:00:58.192735-07:00",
+    "source": "email",
+    "filename": "2026-03-13-kimi-claw-openclaw-agent.md",
+    "title": "Kimi Claw OpenClaw Agent",
+    "tags": [
+      "ai",
+      "automation",
+      "ai agent",
+      "productivity",
+      "cost-saving",
+      "openai",
+      "cloud"
+    ]
+  },
+  "https://www.tiktok.com/t/ZP84tpGu9/": {
+    "processed_at": "2026-03-13T12:01:51.420349-07:00",
+    "source": "email",
+    "filename": "2026-03-13-ai-agent-improvement-prompts.md",
+    "title": "AI Agent Improvement Prompts",
+    "tags": [
+      "ai",
+      "prompts",
+      "ai agents",
+      "openclaw",
+      "self-improvement",
+      "productivity"
+    ]
+  },
+  "https://www.tiktok.com/t/ZP84Gefvu/": {
+    "processed_at": "2026-03-13T12:02:46.187520-07:00",
+    "source": "email",
+    "filename": "2026-03-13-google-workspace-cli-for-ai-agents.md",
+    "title": "Google Workspace CLI for AI Agents",
+    "tags": [
+      "ai",
+      "automation",
+      "google",
+      "workspace",
+      "cli",
+      "llm",
+      "productivity",
+      "development"
+    ]
+  },
+  "https://www.tiktok.com/t/ZP84brnde/": {
+    "processed_at": "2026-03-13T12:03:45.490129-07:00",
+    "source": "email",
+    "filename": "2026-03-13-openclaw-mission-control-ai-agent-orchestration.md",
+    "title": "OpenClaw Mission Control: AI Agent Orchestration",
+    "tags": [
+      "ai",
+      "automation",
+      "agent orchestration",
+      "open-source",
+      "management",
+      "github"
+    ]
+  },
+  "https://www.tiktok.com/t/ZP84CBQMY/": {
+    "processed_at": "2026-03-13T13:00:36.198961-07:00",
+    "source": "email",
+    "filename": "2026-03-13-summarize-youtube-with-gemini.md",
+    "title": "Summarize YouTube with Gemini",
+    "tags": [
+      "ai",
+      "productivity",
+      "youtube",
+      "summarization",
+      "note-taking",
+      "googlegemini",
+      "infographic"
+    ]
+  },
+  "https://www.tiktok.com/t/ZP84Qoj8E/": {
+    "processed_at": "2026-03-13T13:01:03.152300-07:00",
+    "source": "email",
+    "filename": "2026-03-13-ai-agent-folder-based-structure.md",
+    "title": "AI Agent Folder-Based Structure",
+    "tags": [
+      "ai",
+      "software development",
+      "agent architecture",
+      "file system",
+      "markdown",
+      "productivity",
+      "scalability",
+      "unix"
+    ]
+  },
+  "https://www.tiktok.com/t/ZP84QcER2/": {
+    "processed_at": "2026-03-13T13:01:30.884396-07:00",
+    "source": "email",
+    "filename": "2026-03-13-making-openclaw-smarter-with-feedback-loops.md",
+    "title": "Making OpenClaw Smarter with Feedback Loops",
+    "tags": [
+      "ai",
+      "automation",
+      "machine learning",
+      "data integration",
+      "business",
+      "saas",
+      "entrepreneurship",
+      "software development"
+    ]
+  },
+  "https://www.tiktok.com/t/ZP84Dtyq4/": {
+    "processed_at": "2026-03-13T13:01:52.562810-07:00",
+    "source": "email",
+    "filename": "2026-03-13-openclaw-free-ai-skills.md",
+    "title": "OpenClaw Free AI Skills",
+    "tags": [
+      "ai",
+      "automation",
+      "openclaw",
+      "skills",
+      "free tools",
+      "productivity",
+      "community"
+    ]
+  },
+  "https://www.tiktok.com/t/ZP84BJJ6d/": {
+    "processed_at": "2026-03-13T13:02:29.799346-07:00",
+    "source": "email",
+    "filename": "2026-03-13-google-workspace-cli-for-ai-agents.md",
+    "title": "Google Workspace CLI for AI Agents",
+    "tags": [
+      "ai",
+      "automation",
+      "google",
+      "workspace",
+      "cli",
+      "productivity",
+      "development",
+      "agents"
+    ]
+  },
+  "https://www.tiktok.com/t/ZP8Xs8TJC/": {
+    "processed_at": "2026-03-13T14:00:31.450024-07:00",
+    "source": "email",
+    "filename": "2026-03-13-andrej-karpathys-autoresearch.md",
+    "title": "Andrej Karpathy's Autoresearch",
+    "tags": [
+      "ai",
+      "automation",
+      "llm",
+      "research",
+      "machine learning",
+      "open-source",
+      "gpu"
+    ]
+  },
+  "https://www.tiktok.com/t/ZP8XRcUPt/": {
+    "processed_at": "2026-03-13T14:00:53.640580-07:00",
+    "source": "email",
+    "filename": "2026-03-13-notebooklm-for-vibe-coding.md",
+    "title": "NotebookLM for Vibe Coding",
+    "tags": [
+      "ai",
+      "coding",
+      "workflow",
+      "llm",
+      "productivity",
+      "google"
+    ]
+  },
+  "https://www.tiktok.com/t/ZP8Xp1wvJ/": {
+    "processed_at": "2026-03-13T14:01:32.922096-07:00",
+    "source": "email",
+    "filename": "2026-03-13-why-openclaw-matters.md",
+    "title": "Why OpenClaw Matters",
+    "tags": [
+      "ai",
+      "automation",
+      "open-source",
+      "tech trends",
+      "cloud computing"
+    ]
+  },
+  "https://www.tiktok.com/t/ZP8XXapWB/": {
+    "processed_at": "2026-03-13T14:02:08.699349-07:00",
+    "source": "email",
+    "filename": "2026-03-13-openclaw-mission-control.md",
+    "title": "OpenClaw Mission Control",
+    "tags": [
+      "ai",
+      "automation",
+      "development",
+      "gui",
+      "project management",
+      "saas",
+      "productivity",
+      "learning",
+      "cybersecurity"
+    ]
+  },
+  "https://www.tiktok.com/t/ZP8C3tMdW/": {
+    "processed_at": "2026-03-13T14:02:46.379427-07:00",
+    "source": "email",
+    "filename": "2026-03-13-democrat-phony-communication.md",
+    "title": "Democrat Phony Communication",
+    "tags": [
+      "politics",
+      "democrats",
+      "marketing",
+      "communication",
+      "persuasion",
+      "social media"
+    ]
+  },
+  "https://www.tiktok.com/t/ZP8qs4ew3/": {
+    "processed_at": "2026-03-13T14:19:30.320866-07:00",
+    "source": "email",
+    "filename": "2026-03-13-autonomous-ai-plateau-problem.md",
+    "title": "Autonomous AI Plateau Problem",
+    "tags": [
+      "ai",
+      "autonomous ai",
+      "ai agents",
+      "ai development",
+      "machine learning"
+    ]
+  },
+  "https://www.tiktok.com/t/ZP8qsaBMf/": {
+    "processed_at": "2026-03-13T14:20:05.737853-07:00",
+    "source": "email",
+    "filename": "2026-03-13-openclaw-ai-training.md",
+    "title": "OpenClaw AI Training",
+    "tags": [
+      "ai",
+      "automation",
+      "openclaw",
+      "training",
+      "expectations",
+      "business",
+      "productivity",
+      "management",
+      "saas"
+    ]
+  },
+  "https://www.tiktok.com/t/ZP8ChGthD/": {
+    "processed_at": "2026-03-13T14:20:28.753395-07:00",
+    "source": "email",
+    "filename": "2026-03-13-ai-hollywood-movies-by-openclaw.md",
+    "title": "AI Hollywood Movies by OpenClaw",
+    "tags": [
+      "ai",
+      "film",
+      "production",
+      "automation",
+      "generativeai",
+      "hollywood",
+      "aiagent"
+    ]
+  },
+  "https://www.tiktok.com/t/ZP8x5kF1S/": {
+    "processed_at": "2026-03-13T14:20:54.727866-07:00",
+    "source": "email",
+    "filename": "2026-03-13-claude-ai-skills-for-business.md",
+    "title": "Claude AI Skills for Business",
+    "tags": [
+      "ai",
+      "claude",
+      "business",
+      "productivity",
+      "automation",
+      "github",
+      "skills",
+      "marketing",
+      "product management",
+      "c-level advisory",
+      "development"
+    ]
+  },
+  "https://www.tiktok.com/t/ZP8xkHmhh/": {
+    "processed_at": "2026-03-13T14:21:57.683401-07:00",
+    "source": "email",
+    "filename": "2026-03-13-learn-ai-by-doing.md",
+    "title": "Learn AI by Doing",
+    "tags": [
+      "ai",
+      "learning",
+      "self-learning",
+      "problem-solving",
+      "artificialintelligence",
+      "personaldevelopment",
+      "openclaw"
+    ]
+  },
+  "https://www.tiktok.com/t/ZP8xhXysv/": {
+    "processed_at": "2026-03-13T14:22:46.895754-07:00",
+    "source": "email",
+    "filename": "2026-03-13-clawdbot-3d-printing-ai.md",
+    "title": "ClawdBot 3D Printing AI",
+    "tags": [
+      "ai",
+      "3d printing",
+      "automation",
+      "design",
+      "prototyping",
+      "clawdbot",
+      "openclaw",
+      "printpal",
+      "slack"
+    ]
+  },
+  "https://www.tiktok.com/t/ZP8xMWxxt/": {
+    "processed_at": "2026-03-13T14:23:05.925780-07:00",
+    "source": "email",
+    "filename": "2026-03-13-wooden-jigsaw-puzzles-benefits.md",
+    "title": "Wooden Jigsaw Puzzles Benefits",
+    "tags": [
+      "education",
+      "toys",
+      "stem",
+      "parenting",
+      "child development",
+      "puzzles",
+      "problem solving"
+    ]
+  },
+  "https://www.tiktok.com/t/ZP8xMGgrG/": {
+    "processed_at": "2026-03-13T14:23:31.495126-07:00",
+    "source": "email",
+    "filename": "2026-03-13-openclaw-rate-limits-pt-1.md",
+    "title": "OpenClaw Rate Limits Pt 1",
+    "tags": [
+      "ai",
+      "automation",
+      "chatgpt",
+      "api",
+      "development",
+      "rate limits",
+      "token usage",
+      "oauth",
+      "coding"
+    ]
+  },
+  "https://www.tiktok.com/t/ZP8xM1g1k/": {
+    "processed_at": "2026-03-13T14:23:52.031748-07:00",
+    "source": "email",
+    "filename": "2026-03-13-openclaw-mission-control.md",
+    "title": "OpenClaw Mission Control",
+    "tags": [
+      "ai",
+      "automation",
+      "software development",
+      "dashboard",
+      "openclaw",
+      "low-code",
+      "no-code"
+    ]
+  },
+  "https://www.tiktok.com/t/ZP8x2K6yH/": {
+    "processed_at": "2026-03-13T15:00:34.788883-07:00",
+    "source": "email",
+    "filename": "2026-03-13-clawuniverse-ai-platform-overview.txt",
+    "title": "ClawUniverse AI Platform Overview",
+    "tags": [
+      "ai",
+      "automation",
+      "llm",
+      "security",
+      "development",
+      "business",
+      "real estate",
+      "reddit",
+      "prompt engineering"
+    ]
+  },
+  "https://www.tiktok.com/t/ZP8x2AbUC/": {
+    "processed_at": "2026-03-13T15:01:33.980358-07:00",
+    "source": "email",
+    "filename": "2026-03-13-openclaw-apple-watch-ai-update.txt",
+    "title": "OpenClaw Apple Watch AI Update",
+    "tags": [
+      "ai",
+      "automation",
+      "apple watch",
+      "security",
+      "hackathon",
+      "no-code"
+    ]
+  },
+  "https://www.tiktok.com/t/ZP8x24ys8/": {
+    "processed_at": "2026-03-13T15:02:00.189147-07:00",
+    "source": "email",
+    "filename": "2026-03-13-8-tools-for-openclaw-ai.txt",
+    "title": "8 Tools for OpenClaw AI",
+    "tags": [
+      "ai",
+      "automation",
+      "productivity",
+      "web development",
+      "web scraping",
+      "google workspace"
+    ]
   }
 }
