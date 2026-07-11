@@ -1,6 +1,26 @@
-.venv/
-*.mp4
-.env
-.env
+# Python
 __pycache__/
+*.py[cod]
+
+# Virtual environment
 .venv/
+venv/
+
+# Secrets
+.env
+.env.*
+
+# Downloaded media
+*.mp4
+
+# Runtime logs
+*.log
+
+# Generated state and research archives
+usage.json
+*_research.txt
+
+# Editor and OS files
+.vscode/
+.DS_Store
+Thumbs.db
