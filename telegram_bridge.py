@@ -65,13 +65,17 @@ def handle_recipe_action(call):
         return
 
     if action == "recipe_email":
+        bot.answer_callback_query(call.id, "Sending recipe...")
+        bot.send_message(call.message.chat.id, "Sending recipe email...")
         try:
             recipients = email_recipe(recipe_id)
         except Exception as exc:
-            bot.answer_callback_query(call.id, "Email failed.", show_alert=True)
-            bot.send_message(call.message.chat.id, f"Recipe email failed: {exc}")
+            bot.send_message(
+                call.message.chat.id,
+                "Recipe email failed. The recipe is still pending.\n"
+                f"Error: {exc}",
+            )
             return
-        bot.answer_callback_query(call.id, "Recipe emailed.")
         bot.edit_message_reply_markup(
             chat_id=call.message.chat.id,
             message_id=call.message.message_id,
