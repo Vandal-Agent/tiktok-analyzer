@@ -13,11 +13,12 @@ venv/
 # Downloaded media
 *.mp4
 
-# Runtime logs
+# Runtime logs and state
 *.log
-
-# Generated state and research archives
 usage.json
+pending_recipes/
+
+# Generated research archives
 *_research.txt
 
 # Editor and OS files

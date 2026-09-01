@@ -3,16 +3,14 @@ from tiktok_pipeline import process_tiktok_url
 
 
 def run_catchup(limit=5):
-    print("🚀 Starting inbox catchup sweep...")
-
+    print("Starting inbox catchup sweep...")
     emails = check_for_tiktok_emails(limit=limit)
 
     if not emails:
-        print("✅ No matching TikTok emails found.")
+        print("No matching TikTok emails found.")
         return
 
-    print(f"📂 Found {len(emails)} email(s) to process.\n")
-
+    print(f"Found {len(emails)} email(s) to process.\n")
     for index, email_item in enumerate(emails, start=1):
         subject = email_item.get("subject", "No Subject")
         url = email_item.get("tiktok_url", "")
@@ -26,23 +24,22 @@ def run_catchup(limit=5):
         result = process_tiktok_url(url, source="email")
         status = result.get("status")
 
-        if status in {"success", "duplicate", "download_failed"}:
-            check_for_tiktok_emails(
-                action="move_processed",
-                message_num=message_num
-            )
-            print(f"✅ Done: {status}\n")
-
+        if status in {"success", "duplicate", "download_failed", "recipe_pending"}:
+            check_for_tiktok_emails(action="move_processed", message_num=message_num)
+            if status == "recipe_pending":
+                print(f"Recipe preview sent: {result.get('title', 'Untitled recipe')}\n")
+            else:
+                print(f"Done: {status}\n")
         elif status == "analysis_failed":
-            print("❌ Analysis failed after retry. Leaving email in inbox.\n")
-
+            print("Analysis failed. Leaving email in inbox for retry.\n")
+        elif status == "recipe_preview_failed":
+            print("Recipe extracted but preview failed. Leaving email in inbox.\n")
         elif status == "sync_failed":
-            print("⚠️ Drive sync failed. Leaving email in inbox for review.\n")
-
+            print("Drive sync failed. Leaving email in inbox for review.\n")
         else:
-            print(f"⚠️ Unknown status: {status}\n")
+            print(f"Unknown status: {status}\n")
 
-    print("🏁 Catchup sweep complete.")
+    print("Catchup sweep complete.")
 
 
 if __name__ == "__main__":
