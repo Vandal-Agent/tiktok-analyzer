@@ -140,23 +140,30 @@ def send_telegram_alert(message):
         return False
 
 
-def analyze_video(video_path):
-    video_file = client.files.upload(file=video_path)
-    while video_file.state.name == "PROCESSING":
-        time.sleep(2)
-        video_file = client.files.get(name=video_file.name)
-    if video_file.state.name == "FAILED":
-        raise RuntimeError("Gemini failed to process the uploaded video")
-
-    prompt = f"""
+def _build_analysis_prompt(post_description=""):
+    post_description = str(post_description or "").strip()
+    description_block = post_description or "No post description was available."
+    return f"""
 Analyze this TikTok video. First decide whether its primary purpose is teaching
 a food or drink recipe.
 
-If it is a recipe, use the spoken audio, captions, and visible on-screen text to
-reconstruct it. Never invent an ingredient, quantity, cooking time, temperature,
-yield, or direction. Use an empty string for a missing scalar and an empty list
-for a missing list. Set an ingredient's uncertain field true when its amount or
-identity is unclear. Put every material gap or conflict in uncertainties.
+The creator's complete TikTok post description is included below. TikTok may
+hide this text behind the More button in the app. Treat explicit measurements,
+times, temperatures, yields, and written directions in this description as
+primary recipe evidence and combine them with the video.
+
+<tiktok_post_description>
+{description_block}
+</tiktok_post_description>
+
+If it is a recipe, use the post description, spoken audio, captions, and visible
+on-screen text to reconstruct it. Prefer an explicit value from the post
+description over an imprecise phrase in the video. Never invent an ingredient,
+quantity, cooking time, temperature, yield, or direction. Use an empty string
+for a missing scalar and an empty list for a missing list. Set an ingredient's
+uncertain field true only when its amount or identity remains unclear after
+checking every source. Put every material gap or conflict in uncertainties.
+Do not treat hashtags as ingredients or directions.
 
 If it is not a recipe, analyze it for Tracy's project workflow using this context:
 {USER_CONTEXT}
@@ -197,6 +204,17 @@ Rules:
 - Return JSON only, with no Markdown fences.
 """
 
+
+def analyze_video(video_path, post_description=""):
+    video_file = client.files.upload(file=video_path)
+    while video_file.state.name == "PROCESSING":
+        time.sleep(2)
+        video_file = client.files.get(name=video_file.name)
+    if video_file.state.name == "FAILED":
+        raise RuntimeError("Gemini failed to process the uploaded video")
+
+    prompt = _build_analysis_prompt(post_description)
+
     response = client.models.generate_content(
         model="gemini-2.5-flash",
         contents=[video_file, prompt],
@@ -214,8 +232,8 @@ def download_video(url):
         "format": "bestvideo+bestaudio/best",
     }
     with yt_dlp.YoutubeDL(options) as downloader:
-        downloader.download([url])
-    return video_path
+        info = downloader.extract_info(url, download=True)
+    return video_path, str(info.get("description") or "").strip()
 
 
 def _mark_processed(usage, url):
@@ -346,14 +364,14 @@ def process_tiktok_url(url, source="manual"):
         return {"status": "duplicate", "url": url, "message": "Already processed"}
 
     try:
-        video_path = download_video(url)
+        video_path, post_description = download_video(url)
     except Exception as exc:
         usage["download_fail"] += 1
         save_usage(usage)
         return {"status": "download_failed", "url": url, "error": str(exc)}
 
     try:
-        analysis = analyze_video(video_path)
+        analysis = analyze_video(video_path, post_description=post_description)
     except Exception as exc:
         usage["analysis_fail"] += 1
         save_usage(usage)
