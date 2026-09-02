@@ -1,6 +1,6 @@
+import base64
 import json
 import os
-import smtplib
 import tempfile
 from datetime import datetime, timezone
 from email.message import EmailMessage
@@ -18,8 +18,20 @@ PENDING_DIR = Path(os.getenv("TIKTOK_PENDING_RECIPE_DIR", "pending_recipes"))
 TELEGRAM_TOKEN = os.getenv("TIKTOK_TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TIKTOK_ALERT_CHAT_ID")
 GMAIL_USER = os.getenv("GMAIL_USER")
-GMAIL_APP_PASSWORD = os.getenv("GMAIL_APP_PASSWORD")
 RECIPE_RECIPIENTS_ENV = "TIKTOK_RECIPE_RECIPIENTS"
+GMAIL_SEND_SCOPE = "https://www.googleapis.com/auth/gmail.send"
+GMAIL_OAUTH_CLIENT_PATH = Path(
+    os.getenv(
+        "TIKTOK_GMAIL_OAUTH_CLIENT_PATH",
+        "/home/vandal/.config/tiktok-analyzer/gmail_oauth_client.json",
+    )
+)
+GMAIL_OAUTH_TOKEN_PATH = Path(
+    os.getenv(
+        "TIKTOK_GMAIL_OAUTH_TOKEN_PATH",
+        "/home/vandal/.config/tiktok-analyzer/gmail_oauth_token.json",
+    )
+)
 MAX_TELEGRAM_TEXT = 3800
 
 
@@ -230,12 +242,70 @@ def _recipe_recipients():
     return recipients
 
 
+def _write_private_text(path, text):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd, temp_name = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent)
+    try:
+        os.fchmod(fd, 0o600)
+        with os.fdopen(fd, "w", encoding="utf-8") as handle:
+            handle.write(text)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temp_name, path)
+        path.chmod(0o600)
+    finally:
+        if os.path.exists(temp_name):
+            os.remove(temp_name)
+
+
+def _gmail_credentials():
+    if not GMAIL_OAUTH_CLIENT_PATH.is_file():
+        raise RuntimeError(
+            f"Gmail OAuth client file is missing: {GMAIL_OAUTH_CLIENT_PATH}"
+        )
+    if not GMAIL_OAUTH_TOKEN_PATH.is_file():
+        raise RuntimeError(
+            "Gmail authorization is missing. Run authorize_gmail.py once."
+        )
+
+    from google.auth.transport.requests import Request
+    from google.oauth2.credentials import Credentials
+
+    credentials = Credentials.from_authorized_user_file(
+        str(GMAIL_OAUTH_TOKEN_PATH),
+        [GMAIL_SEND_SCOPE],
+    )
+    if credentials.expired and credentials.refresh_token:
+        credentials.refresh(Request())
+        _write_private_text(GMAIL_OAUTH_TOKEN_PATH, credentials.to_json())
+    if not credentials.valid:
+        raise RuntimeError(
+            "Gmail authorization is invalid. Run authorize_gmail.py again."
+        )
+    return credentials
+
+
+def _gmail_service():
+    from googleapiclient.discovery import build
+
+    return build(
+        "gmail",
+        "v1",
+        credentials=_gmail_credentials(),
+        cache_discovery=False,
+    )
+
+
+def _gmail_raw_message(message):
+    return base64.urlsafe_b64encode(message.as_bytes()).decode("ascii")
+
+
 def email_recipe(recipe_id):
     payload = load_pending_recipe(recipe_id)
     if not payload:
         raise FileNotFoundError(f"Recipe {recipe_id} was not found")
-    if not GMAIL_USER or not GMAIL_APP_PASSWORD:
-        raise RuntimeError("Gmail credentials are not configured")
+    if not GMAIL_USER:
+        raise RuntimeError("GMAIL_USER is not configured")
 
     recipients = _recipe_recipients()
     recipe = payload["recipe"]
@@ -245,9 +315,18 @@ def email_recipe(recipe_id):
     message["Subject"] = f"TikTok Recipe: {recipe['title']}"
     message.set_content(format_recipe(recipe, payload["url"]))
 
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=30) as smtp:
-        smtp.login(GMAIL_USER, GMAIL_APP_PASSWORD)
-        smtp.send_message(message)
+    result = (
+        _gmail_service()
+        .users()
+        .messages()
+        .send(
+            userId="me",
+            body={"raw": _gmail_raw_message(message)},
+        )
+        .execute()
+    )
+    if not result or not result.get("id"):
+        raise RuntimeError("Gmail API did not confirm that the message was sent")
 
     delete_pending_recipe(recipe_id)
     return recipients

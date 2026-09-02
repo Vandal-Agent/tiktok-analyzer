@@ -104,5 +104,50 @@ class RecipeWorkflowTests(unittest.TestCase):
                 recipe_workflow._recipe_recipients()
 
 
+    @patch("recipe_workflow._gmail_service")
+    def test_email_recipe_uses_gmail_api_and_deletes_after_confirmation(self, service):
+        send = (
+            service.return_value.users.return_value
+            .messages.return_value.send
+        )
+        send.return_value.execute.return_value = {"id": "gmail-message-id"}
+        pending = recipe_workflow.save_pending_recipe(
+            SAMPLE_RECIPE, "https://www.tiktok.com/@cook/video/456"
+        )
+
+        with patch.object(recipe_workflow, "GMAIL_USER", "sender@example.com"), patch.dict(
+            "os.environ",
+            {"TIKTOK_RECIPE_RECIPIENTS": "one@example.com,two@example.com"},
+        ):
+            recipients = recipe_workflow.email_recipe(pending["id"])
+
+        self.assertEqual(recipients, ["one@example.com", "two@example.com"])
+        send.assert_called_once()
+        call = send.call_args.kwargs
+        self.assertEqual(call["userId"], "me")
+        self.assertTrue(call["body"]["raw"])
+        self.assertIsNone(recipe_workflow.load_pending_recipe(pending["id"]))
+
+    @patch("recipe_workflow._gmail_service")
+    def test_email_failure_keeps_recipe_pending(self, service):
+        (
+            service.return_value.users.return_value
+            .messages.return_value.send.return_value.execute
+        ).side_effect = RuntimeError("network unavailable")
+        pending = recipe_workflow.save_pending_recipe(
+            SAMPLE_RECIPE, "https://www.tiktok.com/@cook/video/789"
+        )
+
+        with patch.object(recipe_workflow, "GMAIL_USER", "sender@example.com"), patch.dict(
+            "os.environ",
+            {"TIKTOK_RECIPE_RECIPIENTS": "one@example.com,two@example.com"},
+        ):
+            with self.assertRaises(RuntimeError):
+                recipe_workflow.email_recipe(pending["id"])
+
+        self.assertIsNotNone(recipe_workflow.load_pending_recipe(pending["id"]))
+
+
+
 if __name__ == "__main__":
     unittest.main()
